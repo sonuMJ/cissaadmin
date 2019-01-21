@@ -1,0 +1,14 @@
+.top-nav{
+    background-color: #232020;
+    height: 80px;
+    border-bottom: 4px solid #fff;
+}
+.top-nav-head{
+    font-size: 50px;
+    color:white;
+    float: left;
+}
+.top-nav-signout{
+    float: right;
+    margin-top: 14px;
+}

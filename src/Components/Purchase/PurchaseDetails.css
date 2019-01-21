@@ -1,0 +1,38 @@
+.purchaseDetail-main{
+    background-color: #a3a3a31c;
+    height:1000px;
+}
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    border: 0.5px solid #33333361;
+}
+.purchaseDetail-formGroup{
+    padding: 20px;
+}
+.purchaseDetails-panelHead{
+    border-bottom: 0.5px solid #333 !important;
+    background-color: #fff !important;
+}
+.purchaseDetails-select{
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+}
+@media print {
+    body {
+      visibility: hidden;
+    }
+    .print {
+      visibility: visible;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }

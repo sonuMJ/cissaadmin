@@ -1,0 +1,26 @@
+.login-inner{
+    background-color:navajowhite;
+    height: 300px;
+    width: 400px;
+    margin: auto;
+}
+.login-main{
+    padding: 100px; 
+    background-color: white
+}
+.login-head{
+    text-align: center; 
+    padding: 0px;
+}
+.login-btn{
+    margin-top: 20px ;
+    width: 226px;
+}
+.login-form{
+    text-align: -webkit-center;
+    margin-top: 60px;
+}
+.login-form-input{
+    width:300px;
+}
+

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CISA ORAGANIC</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+         </head>
+        <style>
+            .top_nav{
+                background-color: #3737e0;
+                height:80px;
+            }
+            .head{
+                color:#1b8646;
+                
+            }
+            .panel-title>a{
+                text-decoration: none;
+            }
+            .head{
+                font-size: 50px;
+                color:white;
+            }
+        </style>
+    <body onload="loadProductByID()">
+    <div class="top_nav">
+            <b class="head">CISSA </b>
+            <a href="#" style="float: right;margin-top: 14px;"><img src="images/signout.png" class="img-resposive" alt="sigout"></a>
+    </div>
+<!--sidenav-->
+        <div class="col-lg-2" style="background-color: #232020;height:1000px; color:white;">
+           
+            <!--    sidenav title    -->
+            <div style="height: 100px; margin-top: 30px; border-bottom: 1px solid white">
+               
+             <div class="col-lg-4"> <img src="images/user.png" class="img-responsive"></div>
+             <div class="col-lg-8">
+                 <span >
+                    <p style="font-size: 22px;">ADMIN</p>
+                    <i style="display: flex;"><div style="height: 12px;width: 12px;background-color: green;margin-top: 5px;border-radius: 50%;"></div>&nbsp;&nbsp;Online</i>
+                 </span>
+             </div>
+           </div>
+                    <!--    sidenav menu    -->
+                <div style="margin-top: 30px;">
+                    <div class="panel-heading" >
+                        <h4 class="panel-title" style="background-color: #ffffff0d;
+                        padding: 5px;">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" style="font-size: 22px;">Product</a>
+                        </h4>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse">
+                            <ul>
+                                <li style="font-size: 18px;"><a href="showproduct.html">View all</a></li>
+                                <li  style="font-size: 18px;"><a href="addproduct.html">Add</a></li>
+                            </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="panel-heading">
+                        <h4 class="panel-title"  style="background-color: #ffffff0d;
+                        padding: 5px;">
+                        <a  href="purchasedetails.html" style="font-size: 22px;">Purchase</a>
+                        </h4>
+                    </div>
+                    <div id="collapse2" class="panel-collapse">
+                    </div>
+                </div>
+                <div>
+                    <div class="panel-heading">
+                        <h4 class="panel-title"  style="background-color: #ffffff0d;
+                        padding: 5px;">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#"style="font-size: 22px;">User</a>
+                        </h4>
+                    </div>
+                    <div id="collapse2" class="panel-collapse">
+                    </div>
+                </div>
+        </div>
+        <div class="col-lg-10">
+            <div class="container" >
+                <h3 >Edit Product</h3>
+                <form onsubmit="return false" id="updateproduct">
+                    <div class="form-group">
+                        <label for="pwd">img:</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="file" class="form-control-file border" name="file" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label for="usr">Name:</label>
+                        <input type="text" class="form-control" required name="name" id="p_name" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Price:</label>
+                        <input type="text" class="form-control" required name="price" id="p_price" placeholder="Price">
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Quantity:</label><i class="text-success"><small>eg: 250g,500g,750g,1kg</small></i>
+                        <input type="text" class="form-control" required name="quantity" id="p_qu" placeholder="quantity">
+                    </div>
+                        <label><input type="checkbox" value="" name="availability" style="height: 20px;width: 20px;" id="p_availability"><b>Availablity</b></label>
+    <br>    
+                    <input type="hidden" id="p_id_" name="p_id_h">
+                    <button type="submit" class="btn btn-primary" onclick="updateProduct(this.form)">Submit</button>
+                    
+                </form>
+           
+            </div>
+         </div>
+        <script>
+            function loadProductByID(){
+                var path = window.location;
+                var url = new URL(path);
+                var p_id = url.searchParams.get("prod_id");
+                fetch("http://localhost:3000/product/"+p_id)
+                .then(res => res.json())
+                .then(result => {
+                    result.map(i =>{
+                        $("#p_name").val(i.name);
+                        $("#p_price").val(i.price);
+                        $("#p_qu").val(i.quantity);
+                        $("#p_id_").val(i.id);
+                        if(i.availability == "true"){
+                            $("#p_availability").attr('checked',true);
+                        }else{
+                            $("#p_availability").attr('checked',false);
+                        }
+                    })
+                });
+            }
+            function updateProduct(form){
+                console.log(form.p_id_h.value);
+                var id = form.p_id_h.value;
+                fetch("http://localhost:3000/product/"+id,{
+                    method:"PUT",
+                    headers:{
+                        "Content-Type": "application/json"
+                    },
+                    body:JSON.stringify({name: form.name.value, price: form.price.value, quantity:form.quantity.value,availability:form.availability.checked,img_url:"---"})
+                })
+                .then(res => res.json())
+                .then(result => {
+                    alert(result.message);
+                    window.location = "showproduct.html";
+                })
+                .catch(e => console.log(e))
+
+            }
+        </script>
+        </body>
+</html>
+        
+    

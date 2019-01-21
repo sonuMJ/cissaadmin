@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CISA ORAGANIC</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <style>
+            .top_nav{
+                background-color: #3737e0;
+                height:80px;
+            }
+            .head{
+                color:#1b8646;
+                
+            }
+            .panel-title>a{
+                text-decoration: none;
+            }
+            .head{
+                font-size: 50px;
+                color:white;
+            }
+            .switch {
+                  position: relative;
+                  display: inline-block;
+                  width: 60px;
+                  height: 34px;
+                }
+
+            .switch input { 
+                  opacity: 0;
+                  width: 0;
+                  height: 0;
+                }
+
+            .slider {
+                  position: absolute;
+                  cursor: pointer;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  bottom: 0;
+                  background-color: #ccc;
+                  transition: .4s;
+                }
+
+            .slider:before {
+                  position: absolute;
+                  content: "";
+                  height: 26px;
+                  width: 26px;
+                  left: 4px;
+                  bottom: 4px;
+                  background-color: white;
+                  -webkit-transition: .4s;
+                  transition: .4s;
+                }
+
+            input:checked + .slider {
+                  background-color: #2196F3;
+                }
+
+            input:focus + .slider {
+                  box-shadow: 0 0 1px #2196F3;
+                }
+
+            input:checked + .slider:before {
+                  -webkit-transform: translateX(26px);
+                 
+                }
+            .slider.round {
+                  border-radius: 34px;
+                }
+
+            .slider.round:before {
+                  border-radius: 50%;
+}
+        
+        </style>
+        </head>
+    <body onload="showProducts()">
+        <div class="top_nav">
+              <b class="head">CISSA </b>
+                <a href="#" style="float: right;margin-top: 14px;"><img src="images/signout.png" class="img-resposive" alt="sigout"></a>
+        </div>
+<!--sidenav-->
+        <div class="col-lg-2" style="background-color: #232020;height:1000px;color: white;">
+           
+            <!--    sidenav title    -->
+            <div style="height: 100px; margin-top: 30px; border-bottom: 1px solid white">
+               
+             <div class="col-lg-4"> <img src="images/user.png" class="img-responsive"></div>
+             <div class="col-lg-8">
+                 <span >
+                    <p style="font-size: 22px;">ADMIN</p>
+                    <i style="display: flex;"><div style="height: 12px;width: 12px;background-color: green;margin-top: 5px;border-radius: 50%;"></div>&nbsp;&nbsp;Online</i>
+                 </span>
+             </div>
+           </div>
+                    <!--    sidenav menu    -->
+            <div style="margin-top: 30px;">
+                    <div class="panel-heading" >
+                        <h4 class="panel-title" style="background-color: #ffffff0d;
+                        padding: 5px;">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" style="font-size: 22px;">Product</a>
+                        </h4>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse">
+                            <ul>
+                                <li style="font-size: 18px;"><a href="showproduct.html">View all</a></li>
+                                <li  style="font-size: 18px;"><a href="addproduct.html">Add</a></li>
+                            </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="panel-heading">
+                        <h4 class="panel-title"  style="background-color: #ffffff0d;
+                        padding: 5px;">
+                        <a  href="purchasedetails.html" style="font-size: 22px;">Purchase</a>
+                        </h4>
+                    </div>
+                    <div id="collapse2" class="panel-collapse">
+                    </div>
+                </div>
+                <div>
+                    <div class="panel-heading">
+                        <h4 class="panel-title"  style="background-color: #ffffff0d;
+                        padding: 5px;">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#"style="font-size: 22px;">User</a>
+                        </h4>
+                    </div>
+                    <div id="collapse2" class="panel-collapse">
+                    </div>
+                </div>
+        </div>
+        <div class="col-lg-10" style="height:1000px;">
+            <button type="button" class="btn btn-primary btn-lg btn-block bttn" style="width: 200px;margin-top: 20px;"><a href="addproduct.html" style="color:white;">Add Product</a></button>
+            <div id="table">
+
+            </div>
+        </div>
+            <script>
+              function showProducts()
+              {
+                var tableData = '<table class="table table-hover  table-bordered table-responsive" style="margin-top: 30px;" id="iii"><tr class="active" style="color: black;"><th>Id</th><th>Name</th><th>Price</th><th>Action</th><th>Availability</th></tr>';
+                var table = document.getElementById("table");
+                fetch("http://localhost:3000/product")
+                .then(res => res.json())
+                .then(result => {
+                    var id = 1;
+                    
+                    result.map((i) => {
+                      var checked = i.availability;
+                      var a_status = "";
+                      if(checked == "true"){
+                          a_status = "checked";
+                      }else{
+                          a_status = "";
+                      }
+                      tableData += '<tr><td>'+ id +'</td><td>'+ i.name +'</td><td>'+ i.price +'</td><td><button type="button" class="btn btn-success" onclick="editProduct('+ i.id +')">Edit</button><button type="button" class="btn btn-danger" onclick="deleteProduct('+ i.id +')">Delete</button></td><td><label class="switch" ><input type="checkbox" '+ a_status +' onchange=changeAvailability(event,this,'+ i.id +')><span class="slider round"></span></label></td></tr>';
+                      id++;
+                    });
+                    table.innerHTML = tableData;
+                    
+                })
+                .catch((err) => console.log(err));
+                
+              }
+              function changeAvailability(e, status,prod_id){
+                  console.log(e.target.checked);
+                  fetch("http://localhost:3000/product/availabiltiy/"+prod_id,{
+                      method:'PUT',
+                      body:JSON.stringify({status:e.target.checked}),
+                      headers:{
+                        "Content-Type": "application/json"
+                      }
+                  })
+                  .then(res => res.json())
+                  .then(result => {
+                      alert(result.message);
+                  })
+                  .catch(e => console.log(e))
+              }
+              function deleteProduct(id){
+                var confirmDel = confirm("Are you sure ?");
+                if(confirmDel){
+                    fetch("http://localhost:3000/product/"+id,{
+                      method:'DELETE'
+                    })
+                    .then(res => res.json())
+                    .then(result => {
+                        alert(result.message);
+                        showProducts();
+                    })
+                    .catch(e => console.log(e))
+                }else{
+
+                }
+              }
+              function editProduct(id){
+                window.location = "editproduct.html?prod_id="+id;
+              }
+            </script>
+    </body>
+</html>
+
+            
